@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand">EasyStore</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item" href="#">
+                  <a class="nav-link active" aria-current="page" href="/">Home</a>
+              </li>
+              
+              {% if category_list %}
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" aria-current="page" data-bs-toggle="dropdown" href="#">Categories</a>
+                  <ul class="dropdown-menu">
+                    {% for category in category_list %}
+                      <li><a class="dropdown-item" href="/?category_id={{category.id}}">{{ category.name }}</a></li>
+                      {% endfor %}
+                  </ul>
+              </li>
+              {% endif %}
+              {% if platform_list %}
+              <li class="nav-item dropdown" href="#">
+                  <a class="nav-link dropdown-toggle" aria-current="page" data-bs-toggle="dropdown" href="#">Platforms</a>
+                  <ul class="dropdown-menu">
+                    {% for platform in platform_list %}
+                      <li><a class="dropdown-item" href="/?platform_id={{platform.id}}">{{ platform.name }}</a></li>
+                      {% endfor %}
+                  </ul>
+              </li>
+              
+              {% endif %}
+
+              
+          </ul>
+          <form class="d-flex mx-1" method="POST" action="/">
+              {% csrf_token %}
+            <input name="search_request" class="form-control me-2" type="search" placeholder="Search"></input>
+            <button class="btn btn-outline-info" type="submit">Search</button>
+          </form>
+
+          {% if user.is_authenticated %}
+          <div class="nav-item dropdown mx-1">
+            <a class="nav-link dropdown-toggle" aria-current="page" data-bs-toggle="dropdown" href="#">{{user.username}}</a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="/profile/">Profile</a></li>
+              <li><a class="dropdown-item" href="/logout/">Logout</a></li>
+            </ul>
+          </div>
+
+          {% else %}
+          <a class="nav-link mx-2" aria-current="page" href="/login/">Login</a>
+          {% endif %}
+
+      </div>
+  </div>
+</nav>
+
